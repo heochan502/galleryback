@@ -12,56 +12,48 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
-@Slf4j
 @RequestMapping("/api/v1/account")
 public class AccountController {
     private final AccountService accountService;
 
-
-
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody AccountJoinReq req) {
-        log.info("req: {}",   req);
-       if (!StringUtils.hasLength(req.getName())
-               ||!StringUtils.hasLength(req.getLoginId())
-               || !StringUtils.hasLength(req.getLoginPw()) ) {
-           return ResponseEntity.badRequest().build(); //state 400
+        if(!StringUtils.hasLength(req.getName())
+                || !StringUtils.hasLength(req.getLoginId())
+                || !StringUtils.hasLength(req.getLoginPw())) {
+            return ResponseEntity.badRequest().build(); //state: 400
+        }
 
-       } // 0이상이면 true 줄거
-
-        int result = accountService.join(req);
-        log.debug(String.valueOf(result));
-        return ResponseEntity.ok(result); //state 200
+        int result =  accountService.join(req);
+        return ResponseEntity.ok(result); //state: 200
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(HttpServletRequest httpReq, @RequestBody AccountLoginReq req) {
         AccountLoginRes result = accountService.login(req);
-        if (result == null) {
-            return ResponseEntity.badRequest().build();
+        if(result == null) {
+            return ResponseEntity.notFound().build();
         }
-        // 세선 체크
-
-        HttpUtils.setSession( httpReq, AccountConstants.MEME_ID_NAME , result.getId());
+        //세션 처리
+        HttpUtils.setSession(httpReq, AccountConstants.MEMBER_ID_NAME, result.getId());
 
         return ResponseEntity.ok(result);
     }
+
     @GetMapping("/check")
     public ResponseEntity<?> check(HttpServletRequest httpReq) {
-//        log.info("id :" + httpReq);
-        Integer id = (Integer)HttpUtils.getSessionValue(httpReq, AccountConstants.MEME_ID_NAME);
+        Integer id = (Integer)HttpUtils.getSessionValue(httpReq, AccountConstants.MEMBER_ID_NAME);
+        log.info("id: {}", id);
         return ResponseEntity.ok(id);
     }
 
-
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpServletRequest httpReq) {
-        HttpUtils.removeSession(httpReq, AccountConstants.MEME_ID_NAME);
+        HttpUtils.removeSessionValue(httpReq, AccountConstants.MEMBER_ID_NAME);
         return ResponseEntity.ok(1);
     }
-
 
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class AccountConstants {
-    public static final String MEME_ID_NAME="membersId";
+    public static final String MEMBER_ID_NAME="membersId";
 
 
 
