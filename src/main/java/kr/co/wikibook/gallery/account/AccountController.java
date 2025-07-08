@@ -28,7 +28,7 @@ public class AccountController {
        if (!StringUtils.hasLength(req.getName())
                ||!StringUtils.hasLength(req.getLoginId())
                || !StringUtils.hasLength(req.getLoginPw()) ) {
-           return ResponseEntity.badRequest().build(); //state :400
+           return ResponseEntity.badRequest().build(); //state 400
 
        } // 0이상이면 true 줄거
 
