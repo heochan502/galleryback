@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--위 2중 아래 1줄은 필수 mapper는 .dtd 파일에서 지정되어있는거
+ 인터페이스 + xml >> 객체화-->
+<!--namespace는 인터페이스 파일의 풀 주소+파일이름 -->
+<!--#이면 자동으로 '' 으로 붙여준다 대신 $를쓰면 값 그대로 들어간다 그래서 '' 없기 떄문에 모든걸 다써야한다-->
+<mapper namespace="kr.co.wikibook.gallery.item.ItemMapper">
+
+    <insert id="save">
+        INSERT INTO memo
+        SET title = #{title},
+        content = #{ctnts}
+    </insert>
+
+    <!--    <bind name="pattern" value="'%' + _parameter.getTitle() + '%'" />-->
+    <select id="findAllByIdIn">
+        SELECT id, name, img_path , price, discount_per
+        FROM items
+        <if test="ids != NULL and ids.size > 0">
+            WHERE id IN  (<foreach collection="ids" item="item" separator=",">#{item}</foreach>)
+        </if>
+
+<!--        <if test="searchText != null and searchText !='' ">-->
+<!--            <bind name="pattern" value="'%' + _parameter.getSearchText + '%'" />-->
+<!--            WHERE title LIKE #{pattern}-->
+<!--            OR content LIKE '%${pattern}%'-->
+            <!--            WHERE title LIKE '%${searchText}%'-->
+            <!--                OR content LIKE '%${searchText}%'-->
+        <!--</if>-->
+
+<!--        ORDER BY id DESC-->
+    </select>
+    <select id="findById">
+        SELECT id, title, content , created_at
+        FROM memo
+        WHERE id = #{id}
+
+    </select>
+
+    <delete id="delById">
+        DELETE FROM memo
+        WHERE id = #{id}
+    </delete>
+
+    <update id="modify">
+        UPDATE memo
+        SET title = #{title},
+        content = #{ctnts}
+        WHERE id = #{memoId}
+    </update>
+
+</mapper>
