@@ -23,7 +23,7 @@ public class ItemController {
 
     @GetMapping
     public ResponseEntity<?> readAll(@RequestParam( required = false) ArrayList<Integer> ids) {
-        log.info("ids: {}", ids);
+//        log.info("ids: {}", ids);
         List<ItemGetRes> items = itemService.findAll(ids);
         return ResponseEntity.ok(items);
     }

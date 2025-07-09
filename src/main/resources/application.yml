@@ -1,3 +1,8 @@
+constants:
+  file:
+    directory: D:\hc\backend\upload
+
+
 Spring:
   application:
     name: gallery
