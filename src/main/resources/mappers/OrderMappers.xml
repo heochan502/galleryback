@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--위 2중 아래 1줄은 필수 mapper는 .dtd 파일에서 지정되어있는거
+ 인터페이스 + xml >> 객체화-->
+<!--namespace는 인터페이스 파일의 풀 주소+파일이름 -->
+<!--#이면 자동으로 '' 으로 붙여준다 대신 $를쓰면 값 그대로 들어간다 그래서 '' 없기 떄문에 모든걸 다써야한다-->
+<mapper namespace="kr.co.wikibook.gallery.order.OrderMapper">
+
+    <insert id="save">
+<!--        INSERT INTO orders (member_id, name,address,payment,card_number,amount)-->
+<!--        VALUES (#memberId, #name, #address,#payment,#cardNumber,#amount);-->
+
+        INSERT INTO orders
+        SET
+        member_id = #{memberId}
+        ,name = #{name}
+        ,address = #{address}
+        ,payment = #{payment}
+        ,amount = #{amount}
+        <if test = "cardNumber != null and cardNumber !=''">
+        ,card_number =#{cardNumber}
+        </if>
+
+
+
+    </insert>
+
+    <select id="findBymemberId">
+        SELECT id, member_id, item_id
+        FROM
+        WHERE member_id= #{memberId}
+    </select>
+    <delete id="deleteByOrderAndMemberId">
+        DELETE FROM carts
+        WHERE id = #{cartId}
+        and member_id = #{memberId}
+
+    </delete>
+
+    <delete id="deleteCartByMemberId">
+        DELETE FROM carts
+        WHERE member_id = #{memberId}
+    </delete>
+</mapper>

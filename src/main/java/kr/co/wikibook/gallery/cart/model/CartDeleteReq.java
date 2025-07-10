@@ -7,11 +7,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
-@Setter
+//@Setter
 @AllArgsConstructor
 public class CartDeleteReq {
 //    @JsonIgnore
     private Integer memberId;
-    private Integer itemId;
+    private Integer cartId;
 
 }

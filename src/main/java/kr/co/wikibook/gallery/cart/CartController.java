@@ -35,15 +35,42 @@ public class CartController {
         List<CartGetRes> result = cartService.findAll(memberId);
         return  ResponseEntity.ok(result);
     }
-    @DeleteMapping
-    // RequestParam은 객체 못가져옴
-    public  ResponseEntity<?> delete(HttpServletRequest httpReq, @ModelAttribute CartDeleteReq req) {
-        int memberId = (int)HttpUtils.getSessionValue(httpReq, AccountConstants.MEMBER_ID_NAME);
+//    @DeleteMapping
+//    // RequestParam은 객체 못가져옴
+//    public  ResponseEntity<?> delete(HttpServletRequest httpReq, @ModelAttribute CartDeleteReq req) {
+//        int memberId = (int)HttpUtils.getSessionValue(httpReq, AccountConstants.MEMBER_ID_NAME);
 //        req.setMemberId(memberId);
-        CartDeleteReq data = new CartDeleteReq(memberId, req.getItemId() );
+//        log.info("req: {}, {}", req.getMemberId() , req.getCartId());
+////        CartDeleteReq data = new CartDeleteReq(memberId, req.getItemId() );
+//        int result = cartService.remove(req);
+//        return  ResponseEntity.ok(result);
+//    }
+    @DeleteMapping("/{cartId}")
+    // RequestParam은 객체 못가져옴
+    public  ResponseEntity<?> deleteMemberItem(HttpServletRequest httpReq, @PathVariable int cartId) {
+        int memberId = (int)HttpUtils.getSessionValue(httpReq, AccountConstants.MEMBER_ID_NAME);
+        CartDeleteReq data = new CartDeleteReq(memberId, cartId );
+
+        log.info("req: {}, {}", data.getMemberId() , data.getCartId());
         int result = cartService.remove(data);
         return  ResponseEntity.ok(result);
     }
+
+
+
+
+
+
+    @DeleteMapping
+    // RequestParam은 객체 못가져옴
+    public  ResponseEntity<?> deleteByMemberId(HttpServletRequest httpReq) {
+        int memberId = (int)HttpUtils.getSessionValue(httpReq, AccountConstants.MEMBER_ID_NAME);
+        log.info("req: ",memberId );
+//        CartDeleteReq data = new CartDeleteReq(memberId, req.getItemId() );
+        int result = cartService.deleteCartByMemberId(memberId);
+        return  ResponseEntity.ok(result);
+    }
+
 }
 
 

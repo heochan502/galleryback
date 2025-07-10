@@ -30,7 +30,7 @@
     </insert>
 
     <select id="findAllWithItembyMemberId">
-        SELECT c.id, i.name,i.price, i.discount_per, i.img_path
+        SELECT c.id, c.item_id ,i.name,i.price, i.discount_per, i.img_path
         FROM carts c
         JOIN items i ON
         i.id = c.item_id
@@ -44,10 +44,15 @@
         FROM carts
         WHERE member_id= #{memberId}
     </select>
-    <delete id="deleteByMemberIdAndItemId">
+    <delete id="deleteByCartIdAndMemberId">
+        DELETE FROM carts
+        WHERE id = #{cartId}
+        and member_id = #{memberId}
+
+    </delete>
+
+    <delete id="deleteCartByMemberId">
         DELETE FROM carts
         WHERE member_id = #{memberId}
-        and item_id = #{itemId}
-
     </delete>
 </mapper>
