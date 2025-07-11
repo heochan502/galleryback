@@ -1,6 +1,7 @@
 package kr.co.wikibook.gallery.order;
 
 
+import kr.co.wikibook.gallery.cart.CartMapper;
 import kr.co.wikibook.gallery.item.*;
 import kr.co.wikibook.gallery.item.ItemMapper;
 import kr.co.wikibook.gallery.item.model.ItemGetRes;
@@ -19,6 +20,7 @@ public class OrderService {
   private final OrderMapper orderMapper;
   private final OrderItemMapper orderItemMapper;
   private final ItemMapper itemMapper;
+  private final CartMapper cartMapper;
 
  // 아래 save중 둘중하나라도 제대로안되면 둘다 실행 안된다
   @Transactional
@@ -53,6 +55,9 @@ public class OrderService {
       OrderItemPostDto itemDto = new OrderItemPostDto(dto.getOrderId(), req.getItemIds());
         // order item에 입력하는거
       int resultDetail = orderItemMapper.save(itemDto);
+
+      cartMapper.deleteCartByMemberId(logginedId);
+
       return 1;
 
   }
