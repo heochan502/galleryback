@@ -22,12 +22,16 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping
-   public ResponseEntity<?> add(HttpServletRequest httpReq, @RequestBody OrderPostDto req) {
+   public ResponseEntity<?> add( HttpServletRequest httpReq, @RequestBody OrderPostReq req) {
 //        int result = orderService.add(req);
-        int memberId = (int)HttpUtils.getSessionValue(httpReq, AccountConstants.MEMBER_ID_NAME);
-        req.setMemberId(memberId);
-        log.info("req : {}", req);
+        int logginedId = (int)HttpUtils.getSessionValue(httpReq, AccountConstants.MEMBER_ID_NAME);
+//        req.setMemberId(memberId);
+
+        int result = orderService.saveOrder(req, logginedId);
+//        log.info("req : {}", req);
 //        int result = orderService.save(req);
-        return null;
+//        return ResponseEntity.ok(result);
+        return ResponseEntity.ok(1);
     }
+
 }

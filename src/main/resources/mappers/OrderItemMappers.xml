@@ -14,26 +14,9 @@
             (order_id, item_id)
         values
         <foreach collection="itemIds" item="item" separator=",">
-            (#{orederId}, #{item})
+            (#{orderId}, #{item})
         </foreach>
-
 
     </insert>
 
-    <select id="findBymemberId">
-        SELECT id, member_id, item_id
-        FROM
-        WHERE member_id= #{memberId}
-    </select>
-    <delete id="deleteByOrderAndMemberId">
-        DELETE FROM carts
-        WHERE id = #{cartId}
-        and member_id = #{memberId}
-
-    </delete>
-
-    <delete id="deleteCartByMemberId">
-        DELETE FROM carts
-        WHERE member_id = #{memberId}
-    </delete>
 </mapper>

@@ -15,7 +15,7 @@ public class OrderPostReq {
     private String name;
     private String address;
     private String payment;
-    private int cardNumber;
+    private String cardNumber;
     private List<Integer> itemIds ;
 
 }

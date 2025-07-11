@@ -16,7 +16,7 @@
     <select id="findAllByIdIn">
         SELECT id, name, img_path , price, discount_per
         FROM items
-        <if test="ids != NULL and ids.size > 0">
+        <if test="ids != null and ids.size > 0">
             WHERE id IN  (<foreach collection="ids" item="item" separator=",">#{item}</foreach>)
         </if>
 
