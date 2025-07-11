@@ -34,7 +34,7 @@ public class OrderService {
         amount += item.getPrice()- ((item.getPrice()*item.getDiscountPer())/100);
     }
     log.info("itemList={}", amount);
-//      OrderPostDto dto2 = new OrderPostDto();
+    // OrderPostDto dto2 = new OrderPostDto();
 
 //      OrderPostDto dto = new OrderPostDto( logginedId,req.getName(), req.getAddress(), req.getPayment(), req.getCardNumber(), amount);
       OrderPostDto dto = OrderPostDto.builder()
@@ -61,4 +61,18 @@ public class OrderService {
       return 1;
 
   }
+  public List<OrderGetRes> findAll(  int memberId)
+  {
+      return  orderMapper.findAllByMemberIdOrderByIdDesc(memberId);
+  }
+
+  public OrderDetailGetRes detail (OrderDetailGetReq req) {
+        OrderDetailGetRes result  =orderMapper.findByOrderIdAndMemberId(req);
+      List<OrderItemPostDto> items = orderItemMapper.findAllByOrderId(req.getOrderId());
+      result.
+      log.info("result={}", result);
+      return result;
+  }
+
+
 }
